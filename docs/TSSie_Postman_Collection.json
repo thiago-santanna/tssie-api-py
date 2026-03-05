@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "038a8b84-48f8-45d0-9cd6-ee9b6f4e1bc2",
+		"name": "TSSie - Webhooks & API",
+		"description": "Collection de testes end-to-end do TSSie - Coleção evolutiva a partir da Sprint 3.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "000000"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simulação MOCK Webhook Evolution",
+			"item": [
+				{
+					"name": "Simular Webhook - Novo Lead (Happy Path)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": \"messages.upsert\",\n    \"instance\": \"TSSieDev\",\n    \"data\": {\n        \"message\": {\n            \"key\": {\n                \"remoteJid\": \"5511999999999@s.whatsapp.net\",\n                \"fromMe\": false,\n                \"id\": \"BAE51144212399\"\n            },\n            \"pushName\": \"Thiago ZAP Test\",\n            \"message\": {\n                \"conversation\": \"Oi, tem correia dentada pra Tucson?\"\n            }\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/webhooks/evolution",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"webhooks",
+								"evolution"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Simular Webhook - Instância Falsa (Defesa Tenant)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": \"messages.upsert\",\n    \"instance\": \"BoletoHackDev\",\n    \"data\": {\n        \"message\": {\n            \"key\": {\n                \"remoteJid\": \"5511999999999@s.whatsapp.net\",\n                \"fromMe\": false,\n                \"id\": \"HACKER51144212399\"\n            },\n            \"pushName\": \"Crawler ZAP\",\n            \"message\": {\n                \"conversation\": \"Oi, teste invasivo\"\n            }\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/webhooks/evolution",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"webhooks",
+								"evolution"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Simular Webhook - Propria Mensagem (fromMe: true)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"event\": \"messages.upsert\",\n    \"instance\": \"TSSieDev\",\n    \"data\": {\n        \"message\": {\n            \"key\": {\n                \"remoteJid\": \"5511999999999@s.whatsapp.net\",\n                \"fromMe\": true,\n                \"id\": \"BOTRESPONSE1234\"\n            },\n            \"pushName\": \"TSSie Bot\",\n            \"message\": {\n                \"conversation\": \"Beep-Boop! Olá...\"\n            }\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/webhooks/evolution",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"webhooks",
+								"evolution"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
